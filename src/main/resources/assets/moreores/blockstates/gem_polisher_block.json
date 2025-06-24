@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,redstone_powered=false": {
+      "model": "moreores:block/gem_polisher_block",
+      "y": 180
+    },
+    "facing=north,redstone_powered=true": {
+      "model": "moreores:block/gem_polisher_block_rp",
+      "y": 180
+    },
+    "facing=east,redstone_powered=false": {
+      "model": "moreores:block/gem_polisher_block",
+      "y": 270
+    },
+    "facing=east,redstone_powered=true": {
+      "model": "moreores:block/gem_polisher_block_rp",
+      "y": 270
+    },
+    "facing=south,redstone_powered=false": {
+      "model": "moreores:block/gem_polisher_block"
+    },
+    "facing=south,redstone_powered=true": {
+      "model": "moreores:block/gem_polisher_block_rp"
+    },
+    "facing=west,redstone_powered=false": {
+      "model": "moreores:block/gem_polisher_block",
+      "y": 90
+    },
+    "facing=west,redstone_powered=true": {
+      "model": "moreores:block/gem_polisher_block_rp",
+      "y": 90
+    }
+  }
+}
