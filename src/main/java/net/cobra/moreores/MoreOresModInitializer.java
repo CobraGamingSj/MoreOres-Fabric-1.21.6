@@ -12,6 +12,7 @@ import net.cobra.moreores.networking.ModS2CPayloadRegistry;
 import net.cobra.moreores.recipe.ModRecipeSerializer;
 import net.cobra.moreores.recipe.ModRecipeType;
 import net.cobra.moreores.recipe.book.ModRecipeBookCategories;
+import net.cobra.moreores.recipe.display.GemPolishingRecipeDisplay;
 import net.cobra.moreores.screen.ModScreenHandlerType;
 import net.cobra.moreores.sound.ModBlockSoundGroup;
 import net.cobra.moreores.sound.ModSoundEvents;
@@ -26,6 +27,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.*;
+import net.minecraft.recipe.display.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -71,6 +73,7 @@ public class MoreOresModInitializer implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+
 
 
 		// Gemstones Item Group Registry

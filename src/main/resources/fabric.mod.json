@@ -9,8 +9,8 @@
 		"CobraGamingSJ"
 	],
 	"contact": {
-		"sources": "https://github.com/CobraGamingSj/MoreOres-Fabric-1.21.6",
-		"issues": "https://github.com/CobraGamingSj/MoreOres-Fabric-1.21.6/issues"
+		"sources": "https://github.com/CobraGamingSj/MoreOres-Fabric-1.21",
+		"issues": "https://github.com/CobraGamingSj/MoreOres-Fabric-1.21/issues"
 	},
 	"license": "MIT",
 	"icon": "assets/moreores/mod_icon.png",
@@ -94,6 +94,9 @@
 		],
 		"java": ">=21",
 		"fabric-api": [
+			"0.128.2+1.21.6",
+			"0.128.1+1.21.6",
+			"0.128.0+1.21.6",
 			"0.127.1+1.21.6",
 			"0.127.0+1.21.6"
 		]

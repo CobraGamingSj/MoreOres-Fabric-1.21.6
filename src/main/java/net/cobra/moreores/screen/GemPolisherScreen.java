@@ -37,21 +37,13 @@ public class GemPolisherScreen extends HandledScreen<GemPolisherScreenHandler> {
         titleY = 1000;
         playerInventoryTitleY = 1000;
 
-        start = this.addButton("gui.button.gp.start", button -> {
-            ClientPlayNetworking.send(new GemPolisherButtonClick(0, handler.blockEntity.getPos()));
-        }, this.x + 9, y + 92, "Start Polishing");
+        start = this.addButton("gui.button.gp.start", button -> ClientPlayNetworking.send(new GemPolisherButtonClick(0, handler.blockEntity.getPos())), this.x + 9, y + 92, "Start Polishing");
 
-        pause = this.addButton("gui.button.gp.pause", button -> {
-            ClientPlayNetworking.send(new GemPolisherButtonClick(1, handler.blockEntity.getPos()));
-        }, x + 50, y + 92, "Pause Polishing");
+        pause = this.addButton("gui.button.gp.pause", button -> ClientPlayNetworking.send(new GemPolisherButtonClick(1, handler.blockEntity.getPos())), x + 50, y + 92, "Pause Polishing");
 
-        resume = this.addButton("gui.button.gp.resume", button -> {
-            ClientPlayNetworking.send(new GemPolisherButtonClick(2, handler.blockEntity.getPos()));
-        }, this.x + 93, this.y + 92, "Resume Polishing");
+        resume = this.addButton("gui.button.gp.resume", button -> ClientPlayNetworking.send(new GemPolisherButtonClick(2, handler.blockEntity.getPos())), this.x + 93, this.y + 92, "Resume Polishing");
 
-        stop = this.addButton("gui.button.gp.stop", button -> {
-            ClientPlayNetworking.send(new GemPolisherButtonClick(3, handler.blockEntity.getPos()));
-        }, x + 135, y + 92, "Stop Polishing");
+        stop = this.addButton("gui.button.gp.stop", button -> ClientPlayNetworking.send(new GemPolisherButtonClick(3, handler.blockEntity.getPos())), x + 135, y + 92, "Stop Polishing");
 
         start.visible = true;
         pause.visible = true;

@@ -4,22 +4,23 @@ import com.mojang.serialization.MapCodec;
 import net.cobra.moreores.MoreOresModInitializer;
 import net.cobra.moreores.block.entity.GemPolisherBlockEntity;
 import net.cobra.moreores.block.entity.TickableBlockEntity;
+import net.cobra.moreores.item.ModItems;
+import net.cobra.moreores.registry.ModItemTags;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -34,6 +35,7 @@ public class GemPolisherBlock extends BlockWithEntity implements BlockEntityProv
     private static final VoxelShape SHAPE = Block.createCuboidShape(0, 0, 0, 16, 14, 16);
     public static final EnumProperty<Direction> FACING = Properties.HORIZONTAL_FACING;
     public static final BooleanProperty REDSTONE_POWERED = BooleanProperty.of("redstone_powered");
+    public static final BooleanProperty HAS_ENERGY = BooleanProperty.of("has_energy");
     public static final MapCodec<GemPolisherBlock> CODEC = GemPolisherBlock.createCodec(GemPolisherBlock::new);
 
     @Override
@@ -48,7 +50,8 @@ public class GemPolisherBlock extends BlockWithEntity implements BlockEntityProv
 
     @Override
     public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().rotateYClockwise()).with(REDSTONE_POWERED, ctx.getWorld().isReceivingRedstonePower(ctx.getBlockPos()));
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().rotateYClockwise()).with(REDSTONE_POWERED, ctx.getWorld().isReceivingRedstonePower(ctx.getBlockPos()))
+                .with(HAS_ENERGY, false);
     }
 
     @Override
@@ -98,13 +101,45 @@ public class GemPolisherBlock extends BlockWithEntity implements BlockEntityProv
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!world.isClient) {
+        if(Screen.hasAltDown()) {
+            ItemStack heldStack = player.getStackInHand(Hand.MAIN_HAND);
+            if(!heldStack.isEmpty() && world.getBlockEntity(pos) instanceof GemPolisherBlockEntity be) {
+                ItemStack energyStack = be.getStack(GemPolisherBlockEntity.ENERGY_SOURCE_SLOT);
+                ItemStack inputStack = be.getStack(GemPolisherBlockEntity.INGREDIENT_SLOT);
+                if(!world.isClient) {
+                    if((heldStack.getItem() == ModItems.ENERGY_INGOT || heldStack.getItem() == ModBlocks.ENERGY_BLOCK.asItem())) {
+                        if(energyStack.isEmpty()) {
+                            be.setStack(GemPolisherBlockEntity.ENERGY_SOURCE_SLOT, heldStack.copyWithCount(1));
+                            heldStack.decrement(1);
+                        } else if (ItemStack.areItemsEqual(energyStack, heldStack) && energyStack.getCount() < energyStack.getMaxCount()) {
+                            energyStack.increment(1);
+                            heldStack.decrement(1);
+                            be.markDirty();
+                        }
+                    }
+                    if(heldStack.isIn(ModItemTags.RAW_GEMSTONE)) {
+                        if(inputStack.isEmpty()) {
+                            be.setStack(GemPolisherBlockEntity.INGREDIENT_SLOT, heldStack.copyWithCount(heldStack.getCount()));
+                            heldStack.decrement(heldStack.getCount());
+                        } else if (ItemStack.areItemsEqual(inputStack, heldStack)) {
+                            inputStack.increment(heldStack.getCount());
+                            heldStack.decrement(heldStack.getCount());
+                            be.markDirty();
+                        }
+                    }
+                }
+                return ActionResult.SUCCESS;
+            }
+        }
+
+        if(!world.isClient){
             NamedScreenHandlerFactory screenHandlerFactory = ((GemPolisherBlockEntity) world.getBlockEntity(pos));
 
             if (screenHandlerFactory != null) {
                 player.openHandledScreen(screenHandlerFactory);
             }
         }
+
         return ActionResult.SUCCESS;
     }
 
@@ -128,5 +163,6 @@ public class GemPolisherBlock extends BlockWithEntity implements BlockEntityProv
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
         builder.add(REDSTONE_POWERED);
+        builder.add(HAS_ENERGY);
     }
 }

@@ -67,7 +67,7 @@ public class EnergyIngotItem extends Item {
                     stack.setDamage(stack.getDamage() + 1);
                 }
             }
-        }else if(!world.isClient() && hand == Hand.OFF_HAND && Screen.hasControlDown()) {
+        } else if(!world.isClient() && hand == Hand.OFF_HAND && Screen.hasControlDown()) {
             EntityType<LightningEntity> lightningType = EntityType.LIGHTNING_BOLT;
             LightningEntity lightning = new LightningEntity(lightningType, world);
             lightning.setPos(user.getX(), user.getY(), user.getZ());
