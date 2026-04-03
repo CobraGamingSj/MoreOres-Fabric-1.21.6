@@ -14,8 +14,6 @@ import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Pool;
 
-import static net.minecraft.client.data.BlockStateModelGenerator.createBooleanModelMap;
-
 public class ModelGen extends FabricModelProvider {
     public ModelGen(FabricDataOutput output) {
         super(output);

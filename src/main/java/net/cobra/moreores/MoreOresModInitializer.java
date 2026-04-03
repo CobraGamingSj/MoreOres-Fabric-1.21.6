@@ -1,8 +1,10 @@
 package net.cobra.moreores;
 
 import net.cobra.moreores.block.ModBlocks;
-import net.cobra.moreores.block.data.GemPolisherButtonClick;
+import net.cobra.moreores.block.data.GemPurifierButtonClick;
+import net.cobra.moreores.block.data.PolishingStateData;
 import net.cobra.moreores.block.entity.ModBlockEntityType;
+import net.cobra.moreores.client.gui.screen.ModScreenHandlerType;
 import net.cobra.moreores.component.type.ModConsumableComponents;
 import net.cobra.moreores.enchantment.entity.effect.EnchantmentEffects;
 import net.cobra.moreores.item.ModItems;
@@ -12,8 +14,6 @@ import net.cobra.moreores.networking.ModS2CPayloadRegistry;
 import net.cobra.moreores.recipe.ModRecipeSerializer;
 import net.cobra.moreores.recipe.ModRecipeType;
 import net.cobra.moreores.recipe.book.ModRecipeBookCategories;
-import net.cobra.moreores.recipe.display.GemPolishingRecipeDisplay;
-import net.cobra.moreores.screen.ModScreenHandlerType;
 import net.cobra.moreores.sound.ModBlockSoundGroup;
 import net.cobra.moreores.sound.ModSoundEvents;
 import net.cobra.moreores.util.CustomTrades;
@@ -27,7 +27,6 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.*;
-import net.minecraft.recipe.display.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -205,7 +204,7 @@ public class MoreOresModInitializer implements ModInitializer {
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(FunctionalBlocks -> {
 			FunctionalBlocks.addAfter(Blocks.BLAST_FURNACE, ModBlocks.ENERGY_BLOCK);
 			FunctionalBlocks.addAfter(Blocks.REDSTONE_LAMP, ModBlocks.RUBY_LAMP);
-			FunctionalBlocks.addAfter(Blocks.SMITHING_TABLE, ModBlocks.GEM_POLISHER_BLOCK);
+			FunctionalBlocks.addAfter(Blocks.SMITHING_TABLE, ModBlocks.GEM_PURIFIER_BLOCK);
 		});
 
 
@@ -272,7 +271,7 @@ public class MoreOresModInitializer implements ModInitializer {
 
 		//ModBlockEntityType Registry
 		ModBlockEntityType.register();
-		LOGGER.info("Registering Buttons for GemPolisher");
+		LOGGER.info("Registering Buttons for GemPurifier");
 
 
 		//ModScreenHandlers Registry
@@ -288,7 +287,8 @@ public class MoreOresModInitializer implements ModInitializer {
 		ModS2CNetworks.register();
 		ModC2SNetworks.register();
 		ModS2CPayloadRegistry.registerS2CPackets();
-		PayloadTypeRegistry.playC2S().register(GemPolisherButtonClick.ID, GemPolisherButtonClick.PACKET_CODEC);
+		PayloadTypeRegistry.playC2S().register(GemPurifierButtonClick.ID, GemPurifierButtonClick.PACKET_CODEC);
+		PayloadTypeRegistry.playC2S().register(PolishingStateData.ID, PolishingStateData.CODEC);
 		ModC2SNetworks.registerServerC2S();
 
 		//ModConsumableComponents Registry
