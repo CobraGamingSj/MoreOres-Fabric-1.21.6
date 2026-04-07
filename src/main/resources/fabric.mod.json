@@ -8,6 +8,7 @@
 	"authors": [
 		"CobraGamingSJ"
 	],
+	"accessWidener": "moreores.accesswidener",
 	"contact": {
 		"sources": "https://github.com/CobraGamingSj/MoreOres-Fabric-1.21",
 		"issues": "https://github.com/CobraGamingSj/MoreOres-Fabric-1.21/issues"
@@ -17,7 +18,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"net.cobra.moreores.MoreOres"
+			"net.cobra.moreores.MoreOresModInitializer"
 		],
 		"client": [
 			"net.cobra.moreores.client.MoreOresClientModInitializer"
@@ -32,6 +33,8 @@
 	],
 	"depends": {
 		"fabricloader": [
+			"0.18.6",
+			"0.18.5",
 			"0.18.4",
 			"0.18.3",
 			"0.18.2",

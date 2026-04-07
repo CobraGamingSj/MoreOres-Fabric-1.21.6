@@ -1,3 +1,4 @@
+
 package net.cobra.moreores.block;
 
 import com.mojang.serialization.MapCodec;
